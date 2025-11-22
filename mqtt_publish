@@ -15,6 +15,7 @@ LOG_MODULE_REGISTER(net_mqtt_publisher_sample, LOG_LEVEL_DBG);
 #include <zephyr/net/socket.h>
 #include <zephyr/net/mqtt.h>
 #include <zephyr/random/random.h>
+// Permite envio de logs via mqtt (os 4 níveis de log)
 #if defined(CONFIG_LOG_BACKEND_MQTT)
 #include <zephyr/logging/log_backend_mqtt.h>
 #endif
@@ -27,9 +28,13 @@ LOG_MODULE_REGISTER(net_mqtt_publisher_sample, LOG_LEVEL_DBG);
 
 #if defined(CONFIG_USERSPACE)
 #include <zephyr/app_memory/app_memdomain.h>
+// Particiona uma parte da memória para os meus dados
 K_APPMEM_PARTITION_DEFINE(app_partition);
+// Acesso a memória quando CONFIG_USERSPACE estiver ativo
 struct k_mem_domain app_domain;
+// Para dados que iniciam zerados (arrays)
 #define APP_BMEM K_APP_BMEM(app_partition)
+// Para dados que já iniciam com um valor um int ou char
 #define APP_DMEM K_APP_DMEM(app_partition)
 #else
 #define APP_BMEM
